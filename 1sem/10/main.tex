@@ -1,0 +1,58 @@
+\documentclass{article}
+
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{subcaption}
+
+\geometry{paperwidth=491.84pt,paperheight=9.25in}
+\geometry{lmargin=86.383pt,bmargin=80pt,rmargin=86.383pt,tmargin=80.55pt}
+\setlength{\parindent}{0cm}
+
+\title{Page 316}
+\author{Григорьев Т. А.}
+\date{December 2023}
+
+\begin{document}
+\pagenumbering{\textsl{316}}
+
+\textsf{\textbf{11.2. Теоремы Ролля, Лагранжа и Коши \\ о средних значениях}}
+\\
+
+\textbf{\textsc{ТЕОРЕМА 2}}
+\textsf{\textbf{(теорема Ролля\footnote{М. Ролль (1652—1719) — французский математик.})}}
+\textit{Пусть функция $f$:}
+\begin{enumerate}[wide, labelwidth=2pt, labelindent=0pt, topsep=0pt, itemsep=0pt]
+    \item[1)] \textit{непрерывна на отрезке $[a, b]$;}
+    \item[2)] \textit{имеет в каждой точке интервала $(a, b)$ конечную или определенного знака бесконечную производную;}
+    \item[3)] \textit{принимает равные значения на концах отрезка, т. е. $f(a) = f(b)$.}
+\end{enumerate}
+{\setlength{\parindent}{1cm}
+
+
+\textit{Тогда существует хотя бы одна такая точка $\xi, a < \xi < b$, что $f'(\xi) = 0$.}
+
+
+Геометрический смысл теоремы Ролля состоит в том, что на графике функции, удовлетворяющей условиям теоремы Ролля, имеется по крайней мере одна точка, в которой касательная горизонтальна (рис. 51).
+
+\setlength{\parindent}{0cm}
+\textsc{Доказательство.} Если для любой точки $x$ интервала $(a, b)$ выполняется равенство $f(x) = f(a) = f(b)$, то функция $f$ является постоянной на этом интервале и поэтому для любой точки $\xi \in (a, b)$ выполняется условие $f'(\xi) = 0$.
+{\setlength{\parindent}{1cm}
+
+Пусть существует точка $x_0 \in (a, b)$, для которой $f(x_0) \ne f(a)$, например, $f(x_0) > f(a)$. Согласно теореме Вайерштрасса о достижимости непрерывной на отрезке функцией своих наибольшего и наименьшего значений (см. теорему 1 в п. 6.1), существует такая точка $\xi \in [a, b]$, в которой функция $f$ принимает наибольшее значение. Тогда
+\begin{equation*}
+    f(\xi) \ge f(x_0) > f(a) = f(b).
+\end{equation*}
+Поэтому $\xi \ne a$ и $\xi \ne b$, т. е. точка $\xi$ принадлежит интервалу $(a, b)$ и функция $f$ принимает в ней наибольшее значение. Следовательно, согласно теореме Ферма (см. теорему 1 в п. 11.1) выполняется равенство $f'(\xi) = 0$. $\Box$
+\begin{figure}[h]
+    \includegraphics[scale=0.8]{plot.png}
+  \begin{subfigure}{0.5\textwidth}
+    Заметим, что все предпосылки теоремы Ролля существенны. Чтобы в этом убедиться, достаточно привести примеры функций, для которых выполнялись бы два из трех условий теоремы, третье уже не выполнялось бы и у которых не существует точки $\xi$
+  \end{subfigure}
+\end{figure}
+\end{document}
