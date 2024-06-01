@@ -17,6 +17,18 @@ typedef struct {
     Node* current;
 } Iterator;
 
+// Освобождение всей памяти, выделенной под список
+void deallocateList(CircularLinkedList* list) {
+    while (list->size > 0) {
+        Node* temp = list->head;
+        list->head = list->head->next;
+        free(temp);
+        list->size--;
+    }
+    list->head = NULL;
+    list->tail = NULL;
+}
+
 // Инициализация пустого списка
 void initList(CircularLinkedList* list) {
     list->head = NULL;
@@ -138,7 +150,6 @@ void swapSecondAndPenultimate(CircularLinkedList* list) {
     }
 
     Node* second = list->head->next;
-    Node* prev = list->head; // Начинаем с головы
     Node* penultimate = list->head;
 
     // Перемещаемся к предпоследнему элементу
@@ -172,7 +183,7 @@ int main() {
     int variant;
     size_t number;
     print_menu();
-    while (scanf("%d", &variant) == 1, variant != 6) {
+    while (scanf("%d", &variant) == 1 && variant != 6) {
         switch(variant) {
             case 1:
                 printList(&list);
@@ -198,5 +209,6 @@ int main() {
         }
         print_menu();
     }
+    deallocateList(&list);
     return 0;
 }
