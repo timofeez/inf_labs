@@ -15,6 +15,8 @@ typedef struct {
 
 typedef struct {
     Node* current;
+    Node* head;
+    int isFirstIteration;
 } Iterator;
 
 // Освобождение всей памяти, выделенной под список
@@ -38,16 +40,19 @@ void initList(CircularLinkedList* list) {
 
 // Переход к следующему элементу итератора
 int moveNext(Iterator* iter) {
-    if (iter->current != NULL) {
+    if (iter->current != NULL && (iter->isFirstIteration || iter->current->next != iter->head)) {
         iter->current = iter->current->next;
-        return iter->current != NULL;
+        iter->isFirstIteration = 0; // Сброс флага первой итерации после первого вызова
+        return 1; // Продолжаем итерацию
     }
-    return 0;
+    return 0; // Остановка итерации
 }
 
 // Инициализация итератора
 void initIterator(Iterator* iter, const CircularLinkedList* list) {
     iter->current = list->head;
+    iter->head = list->head;
+    iter->isFirstIteration = 1; // Установите флаг первой итерации в 1 (true)
 }
 
 // Получение данных текущего элемента итератора
@@ -66,11 +71,9 @@ void printList(const CircularLinkedList* list) {
     }
     Iterator iter;
     initIterator(&iter, list);
-    int isFirstIteration = 1;
-    do {
+    while (moveNext(&iter)) {
         printf("%zu ", GetCurrentData(&iter));
-        isFirstIteration = 0;
-    } while (moveNext(&iter) && (iter.current != list->head || isFirstIteration));
+    }
     printf("\n");
 }
 
@@ -103,21 +106,28 @@ void deleteNode(CircularLinkedList* list, size_t data) {
     Iterator iter;
     initIterator(&iter, list);
     Node* prev = list->tail;
-    do {
+    // Перед циклом проверяем данные в голове списка
+    if (GetCurrentData(&iter) == data) {
+        Node* current = iter.current;
+        list->head = current->next;
+        list->tail->next = list->head;
+        if (list->size == 1) { // Список стал пустым
+            list->head = NULL;
+            list->tail = NULL;
+        }
+        free(current);
+        list->size--;
+        printf("Элемент %zu удален из списка\n", data);
+        return;
+    }
+    // Переходим к следующему элементу в списке
+    moveNext(&iter);
+    while (iter.current != list->head) {
         if (GetCurrentData(&iter) == data) {
             Node* current = iter.current;
-            if (current == list->head) {
-                list->head = current->next;
-                list->tail->next = list->head;
-                if (list->head == current) { // Список стал пустым
-                    list->head = NULL;
-                    list->tail = NULL;
-                }
-            } else {
-                prev->next = current->next;
-                if (current == list->tail) {
-                    list->tail = prev;
-                }
+            prev->next = current->next;
+            if (current == list->tail) {
+                list->tail = prev;
             }
             free(current);
             list->size--;
@@ -125,7 +135,8 @@ void deleteNode(CircularLinkedList* list, size_t data) {
             return;
         }
         prev = iter.current;
-    } while (moveNext(&iter) && iter.current != list->head);
+        moveNext(&iter);
+    }
     printf("Элемент %zu не найден в списке\n", data);
 }
 
